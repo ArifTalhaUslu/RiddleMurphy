@@ -1,0 +1,87 @@
+﻿@model RiddleMurphy.ViewModels.WalletViewModel
+@{
+    ViewBag.Title = "Wallet";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="container">
+
+
+    <h3 class="text-center">@Model.Owner.UserName</h3>
+
+    <div class="container-fluid mt-5">
+
+        <div class="row">
+            <div class="col-lg-6 p-3 border text-center" style="background-color:rgb(234, 208, 106);">
+
+                <h2>Balance</h2>
+                <hr />
+
+                <h1 class="card-body"> @Model.Account.Balance MC</h1>
+                <a href="/User/BuyCoins" class="btn btn-success p-3 mt-2 mytext-size3 float-start">BUY COINS</a>
+            </div>
+
+            <div class="col-lg-3 p-3 border bg-success text-center">
+
+                <h2>Total Earned</h2>
+                <hr />
+                <h1 class="card-body text-dark">+ @Model.Earned MC</h1>
+            </div>
+
+            <div class="col-lg-3 p-3 border bg-danger text-center">
+
+                <h2>Total Spent</h2>
+                <hr />
+
+                <h2 class="card-body text-dark"> @Model.Spend MC</h2>
+
+            </div>
+
+        </div>
+
+
+
+        <h3 class="mt-5">Proccesses History</h3>
+        <table class="table table-striped table-sm">
+            <thead>
+                <tr>
+                    <th scope="col">Proccess Date</th>
+                    <th scope="col">Proccess Type</th>
+                    <th scope="col">Proccess Summary</th>
+                    <th scope="col">Proccess Riddle Header</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Processes)
+                {
+                    <tr>
+                        <td>@item.ProcessTime</td>
+
+                        @if (@item.IsProcesPositive)
+                        {
+                            <td class="text-success">@item.ProcessType</td>
+                            <td class="text-success">@item.ProcessAmount MC</td>
+                        }
+                        else
+                        {
+                            <td class="text-danger">@item.ProcessType</td>
+                            <td class="text-danger">@item.ProcessAmount MC</td>
+                        }
+                        @if (!item.ProcessType.Equals("Welcome Bonus") && !item.ProcessType.Equals("Buying Coins"))
+                        {
+                            <td class="text-black">@item.Riddle.RiddleHeader</td>
+                        }
+                        else
+                        {
+                            <td class="text-black"></td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

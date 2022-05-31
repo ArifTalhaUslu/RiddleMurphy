@@ -1,0 +1,48 @@
+﻿@model IEnumerable<RiddleMurphy.Models.Entities.User>
+@{
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+
+
+    <h2>Search</h2>
+
+    @using (Html.BeginForm("Search", "User", FormMethod.Post))
+    {
+        <table cellpadding="7">
+            <tr>
+                <td>User Name</td>
+                <td><input class="form-control" type="text" name="username" value="" /></td>
+                <td><input class="btn btn-outline-success" type="submit" name="submit" value="Search" /></td>
+            </tr>
+        </table>
+    }
+
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th></th>
+                <th>User Name</th>
+                <th>About</th>
+                <th>Visit</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td><img style="max-width:150px;" src="@item.UserProfileImgPath" alt="userphoto" /></td>
+                    <td>@item.UserName</td>
+                    <td>About me s ks falsdf lasfkas laskdfa  sşkldmlas kmd</td>
+                    <td>
+                        <a class="btn btn-outline-dark" href="/Main/Visit/@item.UserId">Visit</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>

@@ -1,0 +1,110 @@
+﻿@model IEnumerable<RiddleMurphy.Models.Entities.Riddle>
+
+@{
+    ViewBag.Title = "Auction";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+
+    <h2>Auction</h2>
+
+    <table class="table table-bordered">
+        <tr>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.RiddleHeader)
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.RiddleText)
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.RiddleAnswer)
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.RiddlePrize)
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.RiddleCost)
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.RiddleLike)
+            </th>
+            <th class="text-center">
+                <h4>Offer Amount</h4>
+            </th>
+            <th class="text-center">
+                <h4>Give Offer</h4>
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.RiddleHeader)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.RiddleText)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.RiddleAnswer)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.RiddlePrize)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.RiddleCost)
+                </td>
+                <td class="text-center">
+                    @Html.DisplayFor(modelItem => item.RiddleLike)
+                </td>
+                <td>
+                    <input id="@item.RiddleId" class="form-control" type="number" name="auction" value="" />
+                </td>
+                <td class="text-center">
+                    <a onclick="GiveOffer(@item.RiddleId);" href="#" class="btn btn-outline-dark">GIVE</a>
+                </td>
+            </tr>
+        }
+
+    </table>
+
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+
+        function GiveOffer(ridid) {
+        
+            var amount = parseInt(document.getElementById(ridid).value);
+            var balance = parseInt(@ViewBag.User.Account.Balance);
+
+            if (amount < balance) {
+                if (amount > 0) {
+                    if (amount < 100000000) {
+                        $.ajax({
+                            url: "/User/GiveOffer",
+                            type: "POST",
+                            data: { id: ridid, amount: amount },
+                            success: function (data) {
+                                alert('your offer has been received');
+                                document.location.reload(true);
+                            },
+                            error: function (data) {
+                                alert('error')
+                            }
+                        });
+                    } else {
+                        alert("your bid is above the limit bid amount");
+                    }
+                } else {
+                    alert("you cannot enter negative numbers");
+                }
+            }
+            else {
+                alert("You don't have enough credits");
+            }
+        }
+
+    </script>
+}

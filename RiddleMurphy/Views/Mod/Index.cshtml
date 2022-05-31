@@ -1,0 +1,36 @@
+﻿@model IEnumerable<RiddleMurphy.Models.Entities.Riddle>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2 class="text-center">Approval Waiting Riddles</h2>
+
+<table class="table table-striped table-dark text-light text-center">
+    <thead>
+        <tr>
+            <th>Header</th>
+            <th>Owner</th>
+            <th>Prize</th>
+            <th>Cost</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            if (!item.isRiddleRejected)
+            {
+                <tr>
+                    <td>@item.RiddleHeader</td>
+                    <td><a class="text-decoration-none btn text-light" href="#">@item.Owner.UserName</a></td>
+                    <td>@item.RiddlePrize</td>
+                    <th>@item.RiddleCost</th>
+                    <td><a href="/Mod/Approval/@item.RiddleId" class="btn btn-success text-ligh">CONTENT</a></td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

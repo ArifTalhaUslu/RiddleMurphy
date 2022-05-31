@@ -1,0 +1,188 @@
+﻿
+@model  RiddleMurphy.ViewModels.MainViewModel
+
+
+@foreach (var item in Model.Riddles)
+{
+    if (@HttpContext.Current.User.Identity.IsAuthenticated)
+    {
+        if (item.Owner.UserId == Model.ActiveUser.UserId)
+        {
+            //nothing will be written
+        }
+        else if (item.IsRiddleAnswered)
+        {
+            <div class="container rounded bg-black">
+                <div class="row">
+                    <div class="col-lg-2 my-3">
+                        <a href="/Main/Visit/@item.Owner.UserId" class="h5 card-title text-decoration-none text-warning">@item.Owner.UserName</a>
+                        <img src="@item.Owner.UserProfileImgPath" alt="ProfilePhoto" class="img-thumbnail float-start p-photo-1 w-100" />
+                    </div>
+                    <div class="col-lg-8 card my-3 bg-black text-white">
+                        <div class="" style="height:100%;">
+                            <div id="ridpar" class="card-body text-white">
+                                <a class="btn btn-warning text-black my-2 float-end" onclick="ShowAnswer('@item.RiddleId')">
+                                    Show Answer
+                                </a>
+                                <h4 class="card-title text-warning">@item.RiddleHeader</h4>
+                                <p class="card-text">@item.RiddleText</p>
+                                <div>
+                                    <h4 id="@item.RiddleId" style="display:none;" class="h3 text-capitalize text-warning">Answer: <label class="text-light text-lg-center"> @item.RiddleAnswer </label></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="float-start">
+                                <button type="button" onclick="Like(@item.RiddleId)" class="btn btn-m btn-light my-2">
+                                    Like <span id="writelikes-@item.RiddleId" class="badge bg-black text-light">@item.RiddleLike</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 my-3">
+                        <div class="bg-black">
+                            <div class="border border-3 border-light p-3 w-100" style="border-radius:10px;">
+                                <h5 class="text-warning"> Solwer: <label class="text-success mytext-size4"> @item.SolwerName </label></h5>
+                                <h5 class="text-warning"> Prize: <label class="text-success mytext-size4"> @item.RiddlePrize MC </label></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+        }
+        else
+        {
+            <div class="container rounded bg-black">
+                <div class="row">
+                    <div class="col-lg-2 my-3">
+                        <a href="/Main/Visit/@item.Owner.UserId" class="h5 card-title text-decoration-none text-success">@item.Owner.UserName</a>
+                        <img src="@item.Owner.UserProfileImgPath" alt="ProfilePhoto" class="img-thumbnail float-start p-photo-1 w-100" />
+                    </div>
+                    <div class="col-lg-8 card my-3 bg-black text-white">
+                        <div class="" style="height:100%;">
+                            <div class="card-body text-white">
+                                <a href="/Riddle/Answer/@item.RiddleId" class="btn btn-success text-white my-2 float-end">
+                                    Answer
+                                </a>
+
+                                <h4 class="card-title text-danger">@item.RiddleHeader</h4>
+                                <p class="card-text">@item.RiddleText</p>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="float-start">
+                                <button type="button" onclick="Like(@item.RiddleId)" class="btn btn-m btn-light my-2">
+                                    Like <span id="writelikes-@item.RiddleId" class="badge bg-black text-light">@item.RiddleLike</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="bg-black my-3">
+                            <div class="border border-3 border-light p-3 w-100" style="border-radius:10px;">
+                                <h3 class="btn btn-black text-light btn-lg m-1 mytext-size2 w-100">
+                                    PRIZE : <span class="badge text-black bg-success mytext-size3">@item.RiddlePrize</span>
+                                </h3>
+                                <h3 class="btn btn-black text-light btn-lg m-1 mytext-size2 w-100">
+                                    COST : <span class="badge text-black bg-danger mytext-size3">@item.RiddleCost</span>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+        }
+    }
+    else
+    {
+        if (item.IsRiddleAnswered)
+        {
+            <div class="container rounded bg-black">
+                <div class="row">
+                    <div class="col-lg-2 my-3">
+                        <a href="/Main/Visit/@item.Owner.UserId" class="h5 card-title text-decoration-none text-warning">@item.Owner.UserName</a>
+                        <img src="@item.Owner.UserProfileImgPath" alt="ProfilePhoto" class="img-thumbnail float-start p-photo-1 w-100" />
+                    </div>
+                    <div class="col-lg-8 card my-3 bg-black text-white">
+                        <div class="" style="height:100%;">
+                            <div id="ridpar" class="card-body text-white">
+                                <a class="btn btn-warning text-black my-2 float-end" onclick="ShowAnswer('@item.RiddleId')">
+                                    Show Answer
+                                </a>
+                                <h4 class="card-title text-warning">@item.RiddleHeader</h4>
+                                <p class="card-text">@item.RiddleText</p>
+                                <div>
+                                    <h4 id="@item.RiddleId" style="display:none;" class="h3 text-capitalize text-warning">Answer: <label class="text-light text-lg-center"> @item.RiddleAnswer </label></h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="float-start">
+                                <a href="/Security/Login" type="button" class="btn btn-m btn-light my-2">
+                                    Like <span class="badge bg-black text-light">@item.RiddleLike</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 my-3">
+                        <div class="bg-black">
+                            <div class="border border-3 border-light p-3 w-100" style="border-radius:10px;">
+                                <h5 class="text-warning"> Solwer: <label class="text-success mytext-size4"> @item.SolwerName </label></h5>
+                                <h5 class="text-warning"> Prize: <label class="text-success mytext-size4"> @item.RiddlePrize MC </label></h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+        }
+        else
+        {
+            <div class="container rounded bg-black">
+                <div class="row">
+                    <div class="col-lg-2 my-3">
+                        <a href="/Main/Visit/@item.Owner.UserId" class="h5 card-title text-decoration-none text-success">@item.Owner.UserName</a>
+                        <img src="@item.Owner.UserProfileImgPath" alt="ProfilePhoto" class="img-thumbnail float-start p-photo-1 w-100" />
+                    </div>
+                    <div class="col-lg-8 card my-3 bg-black text-white">
+                        <div class="" style="height:100%;">
+                            <div class="card-body text-white">
+                                <a href="/Riddle/Answer/@item.RiddleId" class="btn btn-success text-white my-2 float-end">
+                                    Answer
+                                </a>
+
+                                <h4 class="card-title text-danger">@item.RiddleHeader</h4>
+                                <p class="card-text">@item.RiddleText</p>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="float-start">
+                                <a href="/Security/Login" type="button" class="btn btn-m btn-light my-2">
+                                    Like <span class="badge bg-black text-light">@item.RiddleLike</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <div class="bg-black my-3">
+                            <div class="border border-3 border-light p-3 w-100" style="border-radius:10px;">
+                                <h3 class="btn btn-black text-light btn-lg m-1 mytext-size2 w-100">
+                                    PRIZE : <span class="badge text-black bg-success mytext-size3">@item.RiddlePrize</span>
+                                </h3>
+                                <h3 class="btn btn-black text-light btn-lg m-1 mytext-size2 w-100">
+                                    COST : <span class="badge text-black bg-danger mytext-size3">@item.RiddleCost</span>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+        }
+    }
+}
+
+
+

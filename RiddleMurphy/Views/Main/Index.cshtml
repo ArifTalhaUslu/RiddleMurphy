@@ -1,0 +1,225 @@
+﻿
+@model  RiddleMurphy.ViewModels.MainViewModel
+
+@{
+    ViewBag.Title = "Discover";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    @@keyframes loadStart {
+
+        50% {
+            color: red;
+        }
+
+        75% {
+            display: none;
+        }
+
+        100% {
+            display: none;
+        }
+    }
+
+    @@keyframes loadMid {
+
+        50% {
+            display: none;
+        }
+
+        75% {
+            color: red;
+        }
+
+        100% {
+            display: none;
+        }
+    }
+
+    @@keyframes loadEnd {
+
+        50% {
+            display: none;
+        }
+
+        75% {
+            display: none;
+        }
+
+        100% {
+            color: red;
+        }
+    }
+
+    .sta {
+        animation-name: loadStart;
+        animation-duration: 3s;
+        animation-delay: 0.5s;
+        animation-iteration-count: infinite;
+    }
+
+    .mdi {
+        animation-name: loadMid;
+        animation-duration: 3s;
+        animation-delay: 0.5s;
+        animation-iteration-count: infinite;
+    }
+
+    .nd {
+        animation-name: loadEnd;
+        animation-duration: 3s;
+        animation-delay: 0.5s;
+        animation-iteration-count: infinite;
+    }
+</style>
+
+<div class="w-100">
+    <div class="row container-fluid rounded p-4 bg-black text-white">
+        @if (@HttpContext.Current.User.Identity.IsAuthenticated)
+        {
+            <h1 class="text-center">Welcome @HttpContext.Current.User.Identity.Name</h1>
+        }
+        else
+        {
+            <h1 class="modal-header">Welcome</h1>
+            <p class="mytext-size3">You can answering riddles or asking riddles in our community...</p>
+            <p class="mytext-size3">But first you have to create an account for yourself </p>
+
+            <div class=" my-3">
+                <a class="btn btn-primary" href="/Main/SignUp">Sign Up</a>
+                <a class="btn btn-outline-primary" href="/Security/Login">Login</a>
+            </div>
+        }
+
+        <hr />
+        <h3 class="text-center">Today's Riddle</h3>
+
+        <div class="container-fluid">
+            <div class="row">
+                @if (Model.TodaysRiddle != null)
+                {
+                    <div class="col-lg-2 my-3">
+                        <a href="/Main/Visit/@Model.TodaysRiddle.Owner.UserId" class="h5 card-title text-decoration-none text-success">@Model.TodaysRiddle.Owner.UserName</a>
+                        <img src="@Model.TodaysRiddle.Owner.UserProfileImgPath" alt="Alternate Text" class="img-thumbnail float-start m-2 p-photo-1 w-100" />
+                    </div>
+                    <div class="col-lg-8 card my-3 bg-black text-white mytext-size3 border-light border-3">
+                        <div class="" style="height:100%;">
+                            <div class="card-body text-white">
+                                <a href="/Riddle/Answer/@Model.TodaysRiddle.RiddleId" class="btn btn-lg btn-success text-white my-2 float-end">
+                                    Answer
+                                </a>
+                                <h4 class="card-title text-danger">@Model.TodaysRiddle.RiddleHeader</h4>
+                                <p class="card-text">@Model.TodaysRiddle.RiddleText</p>
+                            </div>
+                        </div>
+                        <div>
+                            <button type="button" onclick="Like(@Model.TodaysRiddle.RiddleId)" class="btn btn-m btn-light my-2">
+                                Like <span id="writelikes-@Model.TodaysRiddle.RiddleId" class="badge bg-black text-light">@Model.TodaysRiddle.RiddleLike</span>
+                            </button>
+
+                            <div class="float-end">
+                                <button class="btn btn-lg btn-black m-1 mytext-size2 text-light">
+                                    PRIZE : <span class="badge text-black bg-success mytext-size3">@Model.TodaysRiddle.RiddlePrize</span>
+                                </button>
+                                <button class="btn btn-lg btn-black m-1 mytext-size2 text-light">
+                                    Answer Fee : <span class="badge text-black bg-danger mytext-size3">@Model.TodaysRiddle.RiddleCost</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+                <div class="col-lg-2 my-3">
+                    <p>What is the Today's Riddle?</p>
+                    <p>Why should i advertise?</p>
+                    <button class="btn btn-primary">
+                        Learn About it
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<hr />
+
+<div id="ajax-main">
+    @Html.Partial("_Index", Model)
+</div>
+
+<div class="text-lg-center">
+    <h4 id="loading" class="text-success" style="display:none; font-size:50px;">
+        <label class="sta">...</label>
+        <label class="mdi">Lo</label><label class="mdi">ad</label><label class="mdi">ing</label>
+        <label class="nd">...</label>
+    </h4>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        var pageNo = 1;
+        var isPageLoad = true;
+        $(window).scroll(function () {
+            if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+                if (isPageLoad) {
+                    $("#loading").show();
+                    $.ajax({
+                        url: "/Main/Index",
+                        data: { page: pageNo },
+                        success: function (data) {
+                            $("#ajax-main").append(data);
+                            pageNo++;
+
+                            $("#loading").hide();
+
+                            if ($.trim(data) == '') {
+                                isPageLoad = false;
+                            }
+                        }
+                    });
+                    //alert('Bir veritabanı isteği gönderildi')
+                }
+            }
+        })
+    </script>
+
+    <script>
+        function ShowAnswer(ridid) {
+            if (document.getElementById(ridid).style.display == "block") {
+                document.getElementById(ridid).style.display = "none"
+
+            } else {
+                document.getElementById(ridid).style.display = "block"
+            }
+        }
+    </script>
+
+    <script>
+        function Like(ridid) {
+            $.ajax({
+                url: "/Riddle/Like",
+                type: "POST",
+                data: { id: ridid },
+                success: function (data) {
+                    //if likes or unlikes one riddle this code will rewrite like count
+                    $.ajax({
+                        url: "/Riddle/GetLikes",
+                        data: { id: ridid },
+                        success: function (resp) {
+                            document.getElementById("writelikes-" + ridid).innerHTML = parseInt(resp);
+                        },
+                        error: function (data) {
+                            alert('error')
+                        }
+                    });
+
+                },
+                error: function (data) {
+                    alert('error')
+                }
+            });
+        }
+    </script>
+}
+

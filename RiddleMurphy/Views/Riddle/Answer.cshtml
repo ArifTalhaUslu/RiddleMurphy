@@ -1,0 +1,113 @@
+﻿@model RiddleMurphy.ViewModels.AnswerViewModel
+
+@{
+    ViewBag.Title = "Answer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8 card my-3 bg-black text-white p-3">
+            <div class="" style="height:100%;">
+                <img src="@Model.User.UserProfileImgPath" alt="ProfilePhoto" class="img-thumbnail float-start m-2 p-photo-1 " />
+                <div class="card-body text-white">
+                    <h2 class="card-title text-success">@Model.User.UserName</h2>
+                    <h2 class="card-title text-success">@Model.Riddle.RiddleHeader</h2>
+                    <p class="card-text" style="font-size:25px;">@Model.Riddle.RiddleText</p>
+                </div>
+            </div>
+            <div>
+                <button type="button" onclick="Like(@Model.Riddle.RiddleId)" class="btn btn-m btn-light my-2">
+                    Like <span id="writelikes-@Model.Riddle.RiddleId" class="badge bg-black text-light">@Model.Riddle.RiddleLike</span>
+                </button>
+            </div>
+        </div>
+        <div class="col-lg-2"></div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-2"></div>
+
+        <div class="col-lg-4 bg-danger my-3 text-white text-center">
+            <h1>Cost @Model.Riddle.RiddleCost MC</h1>
+        </div>
+
+        <div class="col-lg-4 bg-success my-3 text-white text-center">
+            <h1>Prize @Model.Riddle.RiddlePrize MC</h1>
+        </div>
+        <div class="col-lg-2"></div>
+        <div class="col-lg-12 text-center">
+            <h3 class="text-danger">
+                @if (Model.Riddle.IsRiddleAnswered)
+                {
+                    <label>This mystery is solved by another user</label>
+                }
+                @ViewData["Message"]
+            </h3>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8 card my-3 bg-black text-white">
+
+
+            @using (Html.BeginForm("Answer", "Riddle", FormMethod.Post))
+            {
+                <div class="container text-center">
+                    <div class="row p-3">
+                        <div class="col-lg-6">
+                            <h4>Your Answer</h4>
+                            <h5 class="text-white">You Have - @ViewData["ActiveUsersBalance"] MC</h5>
+                        </div>
+                        <div class="col-lg-6">
+                            <input class="control-label w-100" type="text" name="answer" value="" />
+                        </div>
+                    </div>
+                    @Html.HiddenFor(x => x.Riddle.RiddleId)
+                    <input type="hidden" name="ownerid" value="@Model.User.UserId" />
+                    <input type="submit" name="submitanswer" class="btn btn-success my-3 float-end" value="ANSWER and pay @Model.Riddle.RiddleCost MC" />
+                </div>
+            }
+
+        </div>
+        <div class="col-lg-2"></div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script>
+        function Like(ridid) {
+            $.ajax({
+                url: "/Riddle/Like",
+                type: "POST",
+                data: { id: ridid },
+                success: function (data) {
+                    //if likes or unlikes one riddle this code will rewrite like count
+                    $.ajax({
+                        url: "/Riddle/GetLikes",
+                        data: { id: ridid },
+                        success: function (resp) {
+                            document.getElementById("writelikes-" + ridid).innerHTML = parseInt(resp);
+                        },
+                        error: function (data) {
+                            alert('error')
+                        }
+                    });
+
+                },
+                error: function (data) {
+                    alert('error')
+                }
+            });
+        }
+    </script>
+}
+

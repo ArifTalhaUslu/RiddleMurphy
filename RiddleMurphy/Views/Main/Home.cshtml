@@ -1,0 +1,170 @@
+﻿
+@model  RiddleMurphy.ViewModels.MainViewModel
+
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    @@keyframes loadStart {
+
+        50% {
+            color: red;
+        }
+
+        75% {
+            display: none;
+        }
+
+        100% {
+            display: none;
+        }
+    }
+
+    @@keyframes loadMid {
+
+        50% {
+            display: none;
+        }
+
+        75% {
+            color: red;
+        }
+
+        100% {
+            display: none;
+        }
+    }
+
+    @@keyframes loadEnd {
+
+        50% {
+            display: none;
+        }
+
+        75% {
+            display: none;
+        }
+
+        100% {
+            color: red;
+        }
+    }
+
+    .sta {
+        animation-name: loadStart;
+        animation-duration: 3s;
+        animation-delay: 0.5s;
+        animation-iteration-count: infinite;
+    }
+
+    .mdi {
+        animation-name: loadMid;
+        animation-duration: 3s;
+        animation-delay: 0.5s;
+        animation-iteration-count: infinite;
+    }
+
+    .nd {
+        animation-name: loadEnd;
+        animation-duration: 3s;
+        animation-delay: 0.5s;
+        animation-iteration-count: infinite;
+    }
+</style>
+
+
+@if (Model.Riddles.Count() == 0)
+{
+    <div class="container">
+        <div class="text-center p-4 mt-4">
+            <h3 class="h3 text-capitalize">
+                You are not following anyone
+            </h3>
+            <h4 class="h3 text-capitalize">
+                <a href="/" class="btn btn-outline-success">let's go in search of mystery</a>
+            </h4>
+        </div>
+    </div>
+}
+
+<div id="ajax-main">
+    @Html.Partial("_Home", Model)
+</div>
+
+<div class="text-lg-center">
+    <h4 id="loading" class="text-success" style="display:none; font-size:50px;">
+        <label class="sta">...</label>
+        <label class="mdi">Lo</label><label class="mdi">ad</label><label class="mdi">ing</label>
+        <label class="nd">...</label>
+    </h4>
+</div>
+
+
+@section scripts{
+    <script type="text/javascript">
+        var pageNo = 1;
+        var isPageLoad = true;
+        $(window).scroll(function () {
+            if ($(window).scrollTop() == $(document).height() - $(window).height()) {
+                if (isPageLoad) {
+                    $("#loading").show();
+                    //alert('en alta gelindi');
+                    $.ajax({
+                        url: "/Main/Home",
+                        data: { page: pageNo },
+                        success: function (data) {
+                            $("#ajax-main").append(data);
+                            pageNo++;
+
+                            $("#loading").hide();
+
+                            if ($.trim(data) == '') {
+                                isPageLoad = false;
+                            }
+                        }
+                    });
+                    //alert('Bir veritabanı isteği gönderildi')
+                }
+            }
+        })
+    </script>
+
+    <script>
+        function ShowAnswer(ridid) {
+            if (document.getElementById(ridid).style.display == "block") {
+                document.getElementById(ridid).style.display = "none"
+
+            } else {
+                document.getElementById(ridid).style.display = "block"
+            }
+        }
+    </script>
+
+    <script>
+        function Like(ridid) {
+            $.ajax({
+                url: "/Riddle/Like",
+                type: "POST",
+                data: { id: ridid },
+                success: function (data) {
+                    //if likes or unlikes one riddle this code will rewrite like count
+                    $.ajax({
+                        url: "/Riddle/GetLikes",
+                        data: { id: ridid },
+                        success: function (resp) {
+                            document.getElementById("writelikes-" + ridid).innerHTML = parseInt(resp);
+                        },
+                        error: function (data) {
+                            alert('error')
+                        }
+                    });
+                },
+                error: function (data) {
+                    alert('error')
+                }
+            });
+        }
+    </script>
+}

@@ -1,0 +1,92 @@
+﻿@model RiddleMurphy.Models.Entities.Riddle
+
+@{
+    ViewBag.Title = "Share";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container my-3">
+
+
+    <h2>CreateRiddle</h2>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <h4 class="text-danger">
+                @ViewData["BalanceErrorMessage"]
+            </h4>
+            @using (Html.BeginForm("Share", "Riddle", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.RiddleHeader, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.RiddleHeader, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.RiddleHeader, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.RiddleText, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.RiddleText, 5, 75, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.RiddleText, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.RiddleAnswer, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextAreaFor(model => model.RiddleAnswer, 3, 50, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.RiddleAnswer, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="w-50">
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.RiddlePrize, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.RiddlePrize, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.RiddlePrize, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.RiddleCost, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.RiddleCost, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.RiddleCost, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Create" class="btn btn-primary my-2" />
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="col-lg-6">
+            <hr />
+            <div class="card-body">
+
+                <h1>You Have - @ViewData["ActiveUsersBalance"] MC</h1>
+
+                <a href="/User/BuyCoins" class="btn btn-success mt-3 p-2">Buy Coins</a>
+
+
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <a href="/User" class="btn btn-danger my-2">Back To Profile</a>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+﻿@model RiddleMurphy.Models.Entities.User
+
+@{
+    ViewBag.Title = "BuyCoins";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container my-3">
+    <div class="row">
+
+        <div class="col-lg-4">
+            <h2 class="text-dark">@Model.UserName</h2>
+            <img class="mb-4 w-100" src="@Model.UserProfileImgPath">
+        </div>
+        <div class="col-lg-8">
+            <main class="form-signin">
+                @using (Html.BeginForm("BuyCoins", "User", FormMethod.Post))
+                {
+                    <h1 class="h3 mb-3 fw-normal">Buy</h1>
+
+                    <div class="form-floating mt-3">
+                        <input type="number" name="coins" class="form-control" id="floatingInput" placeholder="How much MC do you want to buy?">
+                        <label for="floatingInput">How much MC do you want to buy?</label>
+                    </div>
+
+                    <div class="form-floating mt-3">
+                        <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
+                        <label for="floatingPassword">Password for confirm</label>
+                    </div>
+
+                    <p class="text-danger">@ViewBag.msg</p>
+
+                    <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">BUY</button>
+                }
+
+            </main>
+        </div>
+    </div>
+</div>

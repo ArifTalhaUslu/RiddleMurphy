@@ -1,0 +1,31 @@
+﻿
+.p-photo-4{
+    width:10%;
+}
+.p-photo-3 {
+    width: 15%;
+}
+.p-photo-2 {
+    width: 20%;
+}
+.p-photo-1 {
+    width: 25%;
+}
+
+.mytext-size1{
+    font-size:10px;
+}
+.mytext-size2 {
+    font-size: 15px;
+}
+.mytext-size3 {
+    font-size: 20px;
+}
+.mytext-size4 {
+    font-size: 25px;
+}
+.myContentBackground {
+    background-color: #D3ECA7;
+}
+
+

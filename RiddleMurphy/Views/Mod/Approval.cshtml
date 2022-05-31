@@ -1,0 +1,101 @@
+﻿@model RiddleMurphy.Models.Entities.Riddle
+
+@{
+    ViewBag.Title = "Approval";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8 card my-3 p-3 bg-dark text-white">
+            <div class="" style="height:100%;">
+                <img src="@Model.Owner.UserProfileImgPath" alt="ProfilePhoto" class="img-thumbnail float-start m-2 p-photo-1 " />
+                <div class="card-body text-white">
+                    <h2 class="card-title text-success">@Model.Owner.UserName</h2>
+                    <h2 class="card-title text-success">@Model.RiddleHeader</h2>
+                    <p class="card-text" style="font-size:25px;">@Model.RiddleText</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2"></div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-2"></div>
+
+        <div class="col-lg-4 bg-danger my-3 text-white text-center">
+            <h1>Cost @Model.RiddleCost MC</h1>
+        </div>
+
+        <div class="col-lg-4 bg-success my-3 text-white text-center">
+            <h1>Prize @Model.RiddlePrize MC</h1>
+        </div>
+
+        <div class="col-lg-2"></div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8 card my-3 p-4 bg-dark text-white">
+            <h1>Answer : @Model.RiddleAnswer</h1>
+        </div>
+        <div class="col-lg-2"></div>
+    </div>
+</div>
+
+
+<div class="container text-center">
+    <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-4"><a href="#" onclick="ApprovalThis(@Model.RiddleId)" class="btn btn-success w-100">APPROVAL</a></div>
+        <div class="col-lg-4"><a href="#" onclick="RejectThis(@Model.RiddleId)" class="btn btn-danger w-100">REJECT</a></div>
+        <div class="col-lg-2"></div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script type="text/javascript">
+
+        window.onload = function () {
+            if (@Model.isRiddleRejected || @Model.RiddleState) {
+                window.location.href = "/Mod/";
+            }
+        }
+
+        function ApprovalThis(ridid) {
+            $.ajax({
+                url: "/Mod/ApprovalThis/" + ridid,
+                data: { id: ridid },
+                success: function (data) {
+                    alert('Approval Process Confirmed')
+                    window.location.href = "/Mod/";
+                },
+                error: function (data) {
+                    alert('error')
+                }
+            });
+        }
+
+        function RejectThis(ridid) {
+            $.ajax({
+                url: "/Mod/RejectThis/" + ridid,
+                data: { id: ridid },
+                success: function (data) {
+                    alert('Reject Process Confirmed')
+                    window.location.href = "/Mod/";
+                },
+                error: function (data) {
+                    alert('error')
+                }
+            });
+        }
+
+    </script>
+    }

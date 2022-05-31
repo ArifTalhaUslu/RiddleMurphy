@@ -1,0 +1,68 @@
+﻿@model RiddleMurphy.Models.Entities.Riddle
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h2>Details</h2>
+
+
+    <table class="table table-striped border">
+
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.RiddleText)</td>
+            <td>@Html.DisplayFor(model => model.RiddleText)</td>
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.RiddleAnswer)</td>
+            <td> @Html.DisplayFor(model => model.RiddleAnswer)</td>
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.AttemptCounter)</td>
+            <td> @Html.DisplayFor(model => model.AttemptCounter)</td>
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.RiddlePrize)</td>
+            <td>@Html.DisplayFor(model => model.RiddlePrize)</td>
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.RiddleCost)</td>
+            <td> @Html.DisplayFor(model => model.RiddleCost)</td>
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.RiddleLike)</td>
+            <td> @Html.DisplayFor(model => model.RiddleLike)</td>
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.IsRiddleAnswered)</td>
+            <td>
+                @if (Model.IsRiddleAnswered)
+                {
+                    <h3 class="text-success">Answered by @Model.SolwerName</h3>
+                }
+                else
+                {
+                    <h5 class="text-danger">Still Mystery</h5>
+                }
+            </td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.RiddleState)</td>
+            <td>
+                @if (Model.RiddleState)
+                {
+                    <h3 class="text-success">ACTIVE</h3>
+                }
+                else if (!Model.RiddleState && !Model.isRiddleRejected)
+                {
+                    <h5 class="text-danger">WAITING PERMISSION</h5>
+                }
+                else if (Model.isRiddleRejected && !Model.RiddleState)
+                {
+                    <h5 class="text-danger">RIDDLE REJECTED</h5>
+                }
+            </td>
+        </tr>
+    </table>
+
+    <p>
+        @Html.ActionLink("Back to List", "Index", "User")
+    </p>
+
+</div>

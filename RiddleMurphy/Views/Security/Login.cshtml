@@ -1,0 +1,33 @@
+﻿@model RiddleMurphy.Models.Entities.User
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6 text-center">
+            <h2>Login</h2>
+            <h6 class="text-danger text-center">@ViewData["ErrorMessage"]</h6>
+            <main class="form-signin">
+                @using (Html.BeginForm("Login","Security",FormMethod.Post))
+                {
+                    <div class="form-group my-3">
+                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                        
+                    </div>
+                    <div class="form-group my-3">
+                        @Html.PasswordFor(m => m.UserPassword, new { @class = "form-control" })
+                    </div>
+                    <button class="w-100 btn btn-lg btn-primary" type="submit">Login</button>
+                }
+
+            </main>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+</div>
+

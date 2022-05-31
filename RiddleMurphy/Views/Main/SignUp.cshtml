@@ -1,0 +1,59 @@
+﻿@model RiddleMurphy.Models.Entities.User
+
+@{
+    ViewBag.Title = "SignUp";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="container">
+        <div class="row">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-6">
+                <h6 class="text-danger text-center">@ViewData["UniqueErrorMessage"] @ViewData["ModelNotValidErrorMessage"] @ViewData["DatabaseErrorMessage"]</h6>
+                @using (Html.BeginForm("SignUp", "Main", FormMethod.Post))
+                {
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    @Html.LabelFor(x => x.UserName)
+                                </td>
+                                <td>
+                                    @Html.EditorFor(x => x.UserName, new { @class = "form-control" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+
+                                    @Html.LabelFor(x => x.UserPassword)
+                                </td>
+                                <td>
+                                    @Html.EditorFor(x => x.UserPassword, new { @class = "form-control" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+
+                                    @Html.LabelFor(x => x.UserProfileImgPath)
+                                </td>
+                                <td>
+                                    @Html.EditorFor(x => x.UserProfileImgPath, new { @class = "form-control" })
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign Up</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                }
+            </div>
+            <div class="col-lg-3"></div>
+        </div>
+    </div>
+
+

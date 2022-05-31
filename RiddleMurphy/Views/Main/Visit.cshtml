@@ -1,0 +1,209 @@
+﻿@model RiddleMurphy.ViewModels.VisitViewModel
+
+@{
+    ViewBag.Title = "Visit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row jumbotron rounded p-4 bg-black text-white">
+
+        <div class="col-lg-4">
+            <img class="w-100 img-thumbnail float-start m-2 p-photo-1" src="@Model.HomeOwner.UserProfileImgPath" alt="Profile Photo" />
+        </div>
+        <div class="col-lg-8 text-center">
+            <h1 class="modal-header">
+                @Model.HomeOwner.UserName
+            </h1>
+
+            <div class="w-100  p-2">
+                <a href="/User/Followers/@Model.HomeOwner.UserId" class="h3 text-decoration-none text-warning mx-3">Followers <label>@Model.HomeOwnerFollowerCount</label></a>
+                <a href="/User/Follows/@Model.HomeOwner.UserId" class="h3 text-decoration-none text-info mx-3">Follows <label>@Model.HomeOwnerFollowsCount</label></a>
+            </div>
+
+
+            <div class="bio w-100 mytext-size3" style="text-align:justify;">
+                <h5>About:</h5>
+                This text is biography text for users, in this area, users gona tell somethink about their lifes
+                This text is biography text for users, in this area, users gona tell somethink about their lifes
+                This text is biography text for users, in this area, users gona tell somethink about their lifes
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="float-start p-3">
+                @if (!Model.IsVisitorFollowing)
+                {
+                    <input id="id" type="hidden" name="id" value="@Model.HomeOwner.UserId" />
+                    <input onclick="Follow()" type="button" href="#" class="btn btn-light btn-outline-success" value="Follow" />
+                }
+                else
+                {
+                    <input id="id" type="hidden" name="id" value="@Model.HomeOwner.UserId" />
+                    <input onclick="UnFollow()" type="button" href="#" class="btn btn-success btn-outline-light" value="You Are Following" />
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr />
+
+@foreach (var item in Model.HomeOwner.UserRiddles)
+{
+    if (item.IsRiddleAnswered)
+    {
+        <div class="container rounded bg-black">
+            <div class="row">
+                <div class="col-lg-2 my-3">
+                    <h5 class="card-title text-warning">@item.Owner.UserName</h5>
+                    <img src="@item.Owner.UserProfileImgPath" alt="ProfilePhoto" class="img-thumbnail float-start p-photo-1 w-100" />
+                </div>
+                <div class="col-lg-8 card my-3 bg-black text-white">
+                    <div class="" style="height:100%;">
+                        <div id="ridpar" class="card-body text-white">
+                            <a class="btn btn-warning text-black my-2 float-end" onclick="ShowAnswer('@item.RiddleId')">
+                                Show Answer
+                            </a>
+                            <h4 class="card-title text-warning">@item.RiddleHeader</h4>
+                            <p class="card-text">@item.RiddleText</p>
+                            <div>
+                                <h4 id="@item.RiddleId" style="display:none;" class="h3 text-capitalize text-warning">Answer: <label class="text-light text-lg-center"> @item.RiddleAnswer </label></h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="float-start">
+                            <button type="button" onclick="Like(@item.RiddleId)" class="btn btn-m btn-light my-2">
+                                Like <span id="writelikes-@item.RiddleId" class="badge bg-black text-light">@item.RiddleLike</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 my-3">
+                    <div class="bg-black">
+                        <div class="border border-3 border-light p-3 w-100" style="border-radius:10px;">
+                            <h5 class="text-warning"> Solwer: <label class="text-success mytext-size4"> @item.SolwerName </label></h5>
+                            <h5 class="text-warning"> Prize: <label class="text-success mytext-size4"> @item.RiddlePrize MC </label></h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr />
+    }
+    else if (item.RiddleState)
+    {
+        <div class="container rounded bg-black">
+            <div class="row">
+                <div class="col-lg-2 my-3">
+                    <h5 class="card-title text-success">@item.Owner.UserName</h5>
+                    <img src="@item.Owner.UserProfileImgPath" alt="ProfilePhoto" class="img-thumbnail float-start p-photo-1 w-100" />
+                </div>
+                <div class="col-lg-8 card my-3 bg-black text-white">
+                    <div class="" style="height:100%;">
+                        <div class="card-body text-white">
+                            <a href="/Riddle/Answer/@item.RiddleId" class="btn btn-success text-white my-2 float-end">
+                                Answer
+                            </a>
+
+                            <h4 class="card-title text-danger">@item.RiddleHeader</h4>
+                            <p class="card-text">@item.RiddleText</p>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="float-start">
+                            <button type="button" onclick="Like(@item.RiddleId)" class="btn btn-m btn-light my-2">
+                                Like <span id="writelikes-@item.RiddleId" class="badge bg-black text-light">@item.RiddleLike</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <div class="bg-black my-3">
+                        <div class="border border-3 border-light p-3 w-100" style="border-radius:10px;">
+                            <h3 class="btn btn-black text-light btn-lg m-1 mytext-size2 w-100">
+                                PRIZE : <span class="badge text-black bg-success mytext-size3">@item.RiddlePrize</span>
+                            </h3>
+                            <h3 class="btn btn-black text-light btn-lg m-1 mytext-size2 w-100">
+                                COST : <span class="badge text-black bg-danger mytext-size3">@item.RiddleCost</span>
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+    }
+}
+
+@section scripts{
+    <script>
+
+        function Like(ridid) {
+            $.ajax({
+                url: "/Riddle/Like",
+                type: "POST",
+                data: { id: ridid },
+                success: function (data) {
+                    //if likes or unlikes one riddle this code will rewrite like count
+                    $.ajax({
+                        url: "/Riddle/GetLikes",
+                        data: { id: ridid },
+                        success: function (resp) {
+                            document.getElementById("writelikes-" + ridid).innerHTML = parseInt(resp);
+                        },
+                        error: function (data) {
+                            alert('error')
+                        }
+                    });
+
+                },
+                error: function (data) {
+                    alert('error')
+                }
+            });
+        }
+
+        function Follow() {
+            $.ajax({
+                url: "/Follow/Follow",
+                type: "POST",
+                data: { id: parseInt(document.getElementById("id").value) },
+                success: function (data) {
+                    document.location.reload(true)
+                },
+                error: function (data) {
+                    alert('hata')
+                }
+            })
+            
+        }
+
+        function UnFollow() {
+            $.ajax({
+                url: "/Follow/UnFollow",
+                type: "POST",
+                data: { id: parseInt(document.getElementById("id").value) },
+                success: function (data) {
+                    document.location.reload(true)
+                },
+                error: function (data) {
+                    alert('hata')
+                }
+            })
+        }
+
+        function ShowAnswer(ridid) {
+            if (document.getElementById(ridid).style.display == "block") {
+                document.getElementById(ridid).style.display = "none"
+
+            } else {
+                document.getElementById(ridid).style.display = "block"
+            }
+        }
+
+    </script>
+}
+
