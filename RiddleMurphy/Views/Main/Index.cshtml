@@ -167,10 +167,8 @@
                     }
                 }
                 <div class="col-lg-2 my-3">
-                    <p>What is the Today's Riddle?</p>
-                    <p>Why should i advertise?</p>
-                    <button class="btn btn-primary">
-                        Learn About it
+                    <button onclick="whatistodaysriddle()" class="btn btn-primary">
+                        What is Today's Riddle
                     </button>
                 </div>
             </div>
@@ -256,6 +254,11 @@
                     alert('error')
                 }
             });
+        }
+    </script>
+    <script>
+        function whatistodaysriddle() {
+            alert("The riddle of the day appears at the top of the main page. If you choose a riddle from your profile and bid on the auction, you will enter the competition. You can't see your own bid or anyone's bids. If you are not the highest bidder, your credit will be refunded at the end of the competition. If you win, your riddle is set as the Today's Riddle.")
         }
     </script>
 }

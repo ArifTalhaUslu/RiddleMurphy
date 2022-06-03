@@ -10,7 +10,7 @@ using System.Web.Mvc;
 namespace RiddleMurphy.Controllers
 {
     [Authorize(Roles = "A")]
-    public class ModController : Controller
+    public class ModController : Controller 
     {
         public ActionResult Index()
         {
