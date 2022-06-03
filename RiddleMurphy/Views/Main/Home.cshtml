@@ -88,10 +88,13 @@
         </div>
     </div>
 }
+else
+{
+    <div id="ajax-main">
+        @Html.Partial("_Home", Model)
+    </div>
+}
 
-<div id="ajax-main">
-    @Html.Partial("_Home", Model)
-</div>
 
 <div class="text-lg-center">
     <h4 id="loading" class="text-success" style="display:none; font-size:50px;">
