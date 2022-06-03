@@ -36,6 +36,15 @@
                             <tr>
                                 <td>
 
+                                    @Html.LabelFor(x => x.UserBio)
+                                </td>
+                                <td>
+                                    @Html.TextAreaFor(x => x.UserBio, new { @class = "form-control" })
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+
                                     @Html.LabelFor(x => x.UserProfileImgPath)
                                 </td>
                                 <td>

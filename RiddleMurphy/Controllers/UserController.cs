@@ -80,6 +80,18 @@ namespace RiddleMurphy.Controllers
             model.Riddles = UsersRiddles;
             model.Followers = db.Follows.Where(x => x.Followen.UserId == ActiveUser.UserId).Count();
             model.Follows = db.Follows.Where(x => x.Follower.UserId == ActiveUser.UserId).Count();
+            
+            int activeRiddles = 0;
+
+            foreach (var item in model.Riddles)
+            {
+                if (item.RiddleState)
+                {
+                    activeRiddles++;
+                }
+            }
+
+            ViewBag.ActiveRiddlesCount = activeRiddles;
 
             #region Calculating
             var processes = db.AccountProcesses.Where(x => x.CoinAccount.UserId == ActiveUser.UserId).ToList();
@@ -293,5 +305,25 @@ namespace RiddleMurphy.Controllers
                 }
             }
         }
+        public ActionResult EditProfile()
+        {
+            User ActiveUser = db.Users.Include("Account").FirstOrDefault(m => m.UserName == User.Identity.Name);
+            return View(ActiveUser);
+        }
+
+        [HttpPost]
+        public ActionResult EditProfile(User user)
+        {
+            User ActiveUser = db.Users.Include("Account").FirstOrDefault(m => m.UserName == User.Identity.Name);
+            if (user.UserId == ActiveUser.UserId)
+            {
+                ActiveUser.UserBio = user.UserBio;
+                ActiveUser.UserPassword = user.UserPassword;
+                ActiveUser.UserProfileImgPath = user.UserProfileImgPath;
+                db.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
+
     }
 }

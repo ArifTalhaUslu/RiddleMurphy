@@ -99,35 +99,72 @@
             <div class="row">
                 @if (Model.TodaysRiddle != null)
                 {
-                    <div class="col-lg-2 my-3">
-                        <a href="/Main/Visit/@Model.TodaysRiddle.Owner.UserId" class="h5 card-title text-decoration-none text-success">@Model.TodaysRiddle.Owner.UserName</a>
-                        <img src="@Model.TodaysRiddle.Owner.UserProfileImgPath" alt="Alternate Text" class="img-thumbnail float-start m-2 p-photo-1 w-100" />
-                    </div>
-                    <div class="col-lg-8 card my-3 bg-black text-white mytext-size3 border-light border-3">
-                        <div class="" style="height:100%;">
-                            <div class="card-body text-white">
-                                <a href="/Riddle/Answer/@Model.TodaysRiddle.RiddleId" class="btn btn-lg btn-success text-white my-2 float-end">
-                                    Answer
-                                </a>
-                                <h4 class="card-title text-danger">@Model.TodaysRiddle.RiddleHeader</h4>
-                                <p class="card-text">@Model.TodaysRiddle.RiddleText</p>
+                    if (Model.TodaysRiddle.IsRiddleAnswered)
+                    {
+                        <div class="col-lg-2 my-3">
+                            <a href="/Main/Visit/@Model.TodaysRiddle.Owner.UserId" class="h5 card-title text-decoration-none text-success">@Model.TodaysRiddle.Owner.UserName</a>
+                            <img src="@Model.TodaysRiddle.Owner.UserProfileImgPath" alt="Alternate Text" class="img-thumbnail float-start m-2 p-photo-1 w-100" />
+                        </div>
+                        <div class="col-lg-8 card my-3 bg-black text-white mytext-size3 border-light border-3">
+                            <div class="" style="height:100%;">
+                                <div class="card-body text-white">
+                                    <a class="btn btn-warning text-black my-2 float-end" onclick="ShowAnswer('@Model.TodaysRiddle.RiddleId')">
+                                        Show Answer
+                                    </a>
+                                    <h4 class="card-title text-danger">@Model.TodaysRiddle.RiddleHeader</h4>
+                                    <p class="card-text">@Model.TodaysRiddle.RiddleText</p>
+                                    <div>
+                                        <h4 id="@Model.TodaysRiddle.RiddleId" style="display:none;" class="h3 text-capitalize text-warning">Answer: <label class="text-light text-lg-center"> @Model.TodaysRiddle.RiddleAnswer </label></h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <button type="button" onclick="Like(@Model.TodaysRiddle.RiddleId)" class="btn btn-m btn-light my-2">
+                                    Like <span id="writelikes-@Model.TodaysRiddle.RiddleId" class="badge bg-black text-light">@Model.TodaysRiddle.RiddleLike</span>
+                                </button>
+                                <div class="col-lg-2 my-3">
+                                    <div class="bg-black">
+                                        <div class="border border-3 border-light p-3 w-100" style="border-radius:10px;">
+                                            <h5 class="text-warning"> Solwer: <label class="text-success mytext-size4"> @Model.TodaysRiddle.SolwerName </label></h5>
+                                            <h5 class="text-warning"> Prize: <label class="text-success mytext-size4"> @Model.TodaysRiddle.RiddlePrize MC </label></h5>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div>
-                            <button type="button" onclick="Like(@Model.TodaysRiddle.RiddleId)" class="btn btn-m btn-light my-2">
-                                Like <span id="writelikes-@Model.TodaysRiddle.RiddleId" class="badge bg-black text-light">@Model.TodaysRiddle.RiddleLike</span>
-                            </button>
+                    }
+                    else
+                    {
+                        <div class="col-lg-2 my-3">
+                            <a href="/Main/Visit/@Model.TodaysRiddle.Owner.UserId" class="h5 card-title text-decoration-none text-success">@Model.TodaysRiddle.Owner.UserName</a>
+                            <img src="@Model.TodaysRiddle.Owner.UserProfileImgPath" alt="Alternate Text" class="img-thumbnail float-start m-2 p-photo-1 w-100" />
+                        </div>
+                        <div class="col-lg-8 card my-3 bg-black text-white mytext-size3 border-light border-3">
+                            <div class="" style="height:100%;">
+                                <div class="card-body text-white">
+                                    <a href="/Riddle/Answer/@Model.TodaysRiddle.RiddleId" class="btn btn-lg btn-success text-white my-2 float-end">
+                                        Answer
+                                    </a>
+                                    <h4 class="card-title text-danger">@Model.TodaysRiddle.RiddleHeader</h4>
+                                    <p class="card-text">@Model.TodaysRiddle.RiddleText</p>
+                                </div>
+                            </div>
+                            <div>
+                                <button type="button" onclick="Like(@Model.TodaysRiddle.RiddleId)" class="btn btn-m btn-light my-2">
+                                    Like <span id="writelikes-@Model.TodaysRiddle.RiddleId" class="badge bg-black text-light">@Model.TodaysRiddle.RiddleLike</span>
+                                </button>
 
-                            <div class="float-end">
-                                <button class="btn btn-lg btn-black m-1 mytext-size2 text-light">
-                                    PRIZE : <span class="badge text-black bg-success mytext-size3">@Model.TodaysRiddle.RiddlePrize</span>
-                                </button>
-                                <button class="btn btn-lg btn-black m-1 mytext-size2 text-light">
-                                    Answer Fee : <span class="badge text-black bg-danger mytext-size3">@Model.TodaysRiddle.RiddleCost</span>
-                                </button>
+                                <div class="float-end">
+                                    <button class="btn btn-lg btn-black m-1 mytext-size2 text-light">
+                                        PRIZE : <span class="badge text-black bg-success mytext-size3">@Model.TodaysRiddle.RiddlePrize</span>
+                                    </button>
+                                    <button class="btn btn-lg btn-black m-1 mytext-size2 text-light">
+                                        Answer Fee : <span class="badge text-black bg-danger mytext-size3">@Model.TodaysRiddle.RiddleCost</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    }
                 }
                 <div class="col-lg-2 my-3">
                     <p>What is the Today's Riddle?</p>

@@ -23,11 +23,13 @@
 
 
             <div class="bio w-100 mytext-size3" style="text-align:justify;">
-                <h5>About:</h5>
-                This text is biography text for users, in this area, users gona tell somethink about their lifes
-                This text is biography text for users, in this area, users gona tell somethink about their lifes
-                This text is biography text for users, in this area, users gona tell somethink about their lifes
+                <h3>About:</h3>
+                @Model.HomeOwner.UserBio
+                <div class="account mt-4">
+                    <h2>Riddles : <label class="text-success font-monospace mytext-size4">@ViewBag.ActiveRiddlesCount</label></h2>
+                </div>
             </div>
+
         </div>
         <div class="col-lg-12">
             <div class="float-start p-3">

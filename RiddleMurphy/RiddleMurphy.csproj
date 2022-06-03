@@ -208,6 +208,10 @@
     <Compile Include="Migrations\202205252234294_LittleRename2.designer.cs">
       <DependentUpon>202205252234294_LittleRename2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202206031826161_UserReqProp.cs" />
+    <Compile Include="Migrations\202206031826161_UserReqProp.designer.cs">
+      <DependentUpon>202206031826161_UserReqProp.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Context\RiddleContext.cs" />
     <Compile Include="Models\Entities\AccountProcess.cs" />
@@ -277,6 +281,7 @@
     <Content Include="Views\User\LikedRiddles.cshtml" />
     <Content Include="Views\User\Auction.cshtml" />
     <Content Include="Views\Mod\TodaysRiddle.cshtml" />
+    <Content Include="Views\User\EditProfile.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -333,6 +338,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202205252234294_LittleRename2.resx">
       <DependentUpon>202205252234294_LittleRename2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202206031826161_UserReqProp.resx">
+      <DependentUpon>202206031826161_UserReqProp.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

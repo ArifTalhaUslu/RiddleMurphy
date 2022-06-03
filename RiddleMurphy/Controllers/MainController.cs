@@ -153,6 +153,18 @@ namespace RiddleMurphy.Controllers
             model.HomeOwner = db.Users.Find(id);
             model.HomeOwner.UserRiddles = db.Riddles.Where(r => r.Owner.UserId == model.HomeOwner.UserId && r.RiddleState).ToList();
 
+            int activeRiddles = 0;
+
+            foreach (var item in model.HomeOwner.UserRiddles)
+            {
+                if (item.RiddleState)
+                {
+                    activeRiddles++;
+                }
+            }
+
+            ViewBag.ActiveRiddlesCount = activeRiddles;
+
             //100  4 ün takipçilerinin id lerini getiriyor:
             //select Follower_UserId from dbo.Follows where Followen_UserId = 1004
 

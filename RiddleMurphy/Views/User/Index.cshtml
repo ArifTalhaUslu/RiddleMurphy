@@ -10,6 +10,7 @@
 
         <div class="col-lg-4">
             <img class="w-100 img-thumbnail float-start m-2 p-photo-1" src="@Model.User.UserProfileImgPath" alt="Profile Photo" />
+            <a class="btn btn-outline-light" href="/User/EditProfile">Edit Profile</a>
         </div>
         <div class="col-lg-8 text-center">
 
@@ -22,12 +23,10 @@
                 <a href="/User/Follows/@Model.User.UserId" class="h3 text-decoration-none text-info mx-3">Follows <label>@Model.Follows</label></a>
             </div>
 
-
             <div class="bio w-100 mytext-size3" style="text-align:justify;">
-                <h5>About:</h5>
-                This text is biography text for users, in this area, users gona tell somethink about their lifes
-                This text is biography text for users, in this area, users gona tell somethink about their lifes
-                This text is biography text for users, in this area, users gona tell somethink about their lifes
+                <h3>About:</h3>
+                <br />
+                @Model.User.UserBio
             </div>
 
             <div class="stats">
@@ -42,8 +41,7 @@
             </div>
 
             <div class="account mt-4">
-                <h5>Active Riddles : <label class="text-success font-monospace mytext-size4">4</label></h5>
-                <h5>Awaiting Approval Riddles  : <label class="text-danger font-monospace mytext-size4">4</label></h5>
+                <h3>Riddles : <label class="text-success font-monospace mytext-size4">@ViewBag.ActiveRiddlesCount</label></h3>
             </div>
         </div>
     </div>

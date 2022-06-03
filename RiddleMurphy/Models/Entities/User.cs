@@ -23,6 +23,7 @@ namespace RiddleMurphy.Models.Entities
 
         [Required(ErrorMessage = "This area must be filled")]
         public string UserPassword { get; set; }
+        [Required(ErrorMessage = "This area must be filled")]
         public string UserProfileImgPath { get; set; }
         [Required]
         public DateTime UserJoinDate { get; set; }
